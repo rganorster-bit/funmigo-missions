@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>דו-קרב שובר שיניים</title>
 
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#f5f7ff;
+padding:20px;
+max-width:800px;
+margin:auto;
+}
+
+h1{
+color:#0d47a1;
+}
+
+.timer{
+font-size:50px;
+font-weight:bold;
+margin:20px;
+}
+
+button{
+padding:15px 30px;
+font-size:20px;
+margin:10px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.start{
+background:#4CAF50;
+color:white;
+}
+
+.stop{
+background:#f44336;
+color:white;
+}
+
+.text{
+font-size:24px;
+line-height:2;
+background:white;
+padding:20px;
+border-radius:15px;
+margin:20px 0;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🏆 דו-קרב שובר שיניים</h1>
+
+<p>
+בכל פעם שמופיעה האות א׳ יש להחליף אותה באות ח׳
+</p>
+
+<div class="timer" id="timer">
+00:00
+</div>
+
+<button class="start" onclick="startTimer()">
+התחל
+</button>
+
+<button class="stop" onclick="stopTimer()">
+עצור
+</button>
+
+<div class="text">
+
+אבי אהב לאכול אבטיח אדום אחרי ארוחת הערב למרות שאמא אמרה אחרת.<br><br>
+
+איתן אסף ארבעה ארגזים אדומים והעביר אותם אל אולם האירועים הגדול.<br><br>
+
+אמיר ואביגיל ארזו אוכל, אגסים ואבטיחים לפני היציאה אל האוהל.<br><br>
+
+אחרי ארוחת הבוקר אלעד ואיתי אמרו שאפשר להתחיל את האתגר הבא.
+
+</div>
+
+<script>
+
+let seconds=0;
+let timer;
+
+function startTimer(){
+
+clearInterval(timer);
+
+timer=setInterval(function(){
+
+seconds++;
+
+let m=Math.floor(seconds/60);
+let s=seconds%60;
+
+document.getElementById("timer").innerHTML=
+String(m).padStart(2,'0')+
+":"+
+String(s).padStart(2,'0');
+
+},1000);
+
+}
+
+function stopTimer(){
+clearInterval(timer);
+}
+
+</script>
+
+</body>
+</html>
