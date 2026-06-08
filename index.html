@@ -1,121 +1,150 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>דו-קרב שובר שיניים</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>דו-קרב שובר שיניים</title>
 
-<style>
-body{
-font-family:Arial;
-text-align:center;
-background:#f5f7ff;
-padding:20px;
-max-width:800px;
-margin:auto;
-}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f5f7ff;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
 
-h1{
-color:#0d47a1;
-}
+    h1 {
+      color: #0d47a1;
+      font-size: 34px;
+    }
 
-.timer{
-font-size:50px;
-font-weight:bold;
-margin:20px;
-}
+    .instructions {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
 
-button{
-padding:15px 30px;
-font-size:20px;
-margin:10px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-}
+    .timer {
+      font-size: 60px;
+      font-weight: bold;
+      margin: 20px;
+      color: #111;
+    }
 
-.start{
-background:#4CAF50;
-color:white;
-}
+    button {
+      padding: 15px 35px;
+      font-size: 22px;
+      margin: 10px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: white;
+    }
 
-.stop{
-background:#f44336;
-color:white;
-}
+    .start {
+      background: #4CAF50;
+    }
 
-.text{
-font-size:24px;
-line-height:2;
-background:white;
-padding:20px;
-border-radius:15px;
-margin:20px 0;
-}
-</style>
+    .stop {
+      background: #f44336;
+    }
+
+    .text {
+      font-size: 24px;
+      line-height: 2;
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      margin: 25px 0;
+    }
+
+    .results {
+      background: #fff8dc;
+      padding: 15px;
+      border-radius: 15px;
+      font-size: 22px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>🏆 דו-קרב שובר שיניים</h1>
+  <h1>🏆 דו-קרב שובר שיניים</h1>
 
-<p>
-בכל פעם שמופיעה האות א׳ יש להחליף אותה באות ח׳
-</p>
+  <div class="instructions">
+    בכל פעם שמופיעה האות <strong>א׳</strong> — יש להחליף אותה באות <strong>ח׳</strong>.
+  </div>
 
-<div class="timer" id="timer">
-00:00
-</div>
+  <h2 id="playerTitle">נציג 1</h2>
 
-<button class="start" onclick="startTimer()">
-התחל
-</button>
+  <div class="timer" id="timer">00:00</div>
 
-<button class="stop" onclick="stopTimer()">
-עצור
-</button>
+  <button class="start" onclick="startTimer()">התחל</button>
+  <button class="stop" onclick="stopTimer()">עצור</button>
 
-<div class="text">
+  <div class="text">
+    אבי אהב לאכול אבטיח אדום אחרי ארוחת הערב למרות שאמא אמרה אחרת.<br><br>
+    איתן אסף ארבעה ארגזים אדומים והעביר אותם אל אולם האירועים הגדול.<br><br>
+    אמיר ואביגיל ארזו אוכל, אגסים ואבטיחים לפני היציאה אל האוהל.<br><br>
+    אחרי ארוחת הבוקר אלעד ואיתי אמרו שאפשר להתחיל את האתגר הבא.
+  </div>
 
-אבי אהב לאכול אבטיח אדום אחרי ארוחת הערב למרות שאמא אמרה אחרת.<br><br>
+  <div class="results" id="results">
+    זמני הנציגים יופיעו כאן
+  </div>
 
-איתן אסף ארבעה ארגזים אדומים והעביר אותם אל אולם האירועים הגדול.<br><br>
+  <script>
+    let seconds = 0;
+    let timer = null;
+    let player = 1;
+    let isRunning = false;
 
-אמיר ואביגיל ארזו אוכל, אגסים ואבטיחים לפני היציאה אל האוהל.<br><br>
+    function startTimer() {
+      clearInterval(timer);
+      seconds = 0;
+      isRunning = true;
+      updateTimer();
 
-אחרי ארוחת הבוקר אלעד ואיתי אמרו שאפשר להתחיל את האתגר הבא.
+      timer = setInterval(function () {
+        seconds++;
+        updateTimer();
+      }, 1000);
+    }
 
-</div>
+    function stopTimer() {
+      if (!isRunning) return;
 
-<script>
+      clearInterval(timer);
+      isRunning = false;
 
-let seconds=0;
-let timer;
+      const results = document.getElementById("results");
 
-function startTimer(){
+      if (results.innerHTML === "זמני הנציגים יופיעו כאן") {
+        results.innerHTML = "";
+      }
 
-clearInterval(timer);
+      results.innerHTML += "זמן נציג " + player + ": " + formatTime(seconds) + "<br>";
 
-timer=setInterval(function(){
+      player++;
+      document.getElementById("playerTitle").innerHTML = "נציג " + player;
 
-seconds++;
+      seconds = 0;
+      updateTimer();
+    }
 
-let m=Math.floor(seconds/60);
-let s=seconds%60;
+    function updateTimer() {
+      document.getElementById("timer").innerHTML = formatTime(seconds);
+    }
 
-document.getElementById("timer").innerHTML=
-String(m).padStart(2,'0')+
-":"+
-String(s).padStart(2,'0');
+    function formatTime(totalSeconds) {
+      let m = Math.floor(totalSeconds / 60);
+      let s = totalSeconds % 60;
 
-},1000);
-
-}
-
-function stopTimer(){
-clearInterval(timer);
-}
-
-</script>
+      return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    }
+  </script>
 
 </body>
 </html>
